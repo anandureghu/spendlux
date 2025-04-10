@@ -1,17 +1,19 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+
+type NavId = "home" | "create" | "analytics" | "transactions" | "";
 
 interface IconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  iconName: string;
+  iconName: NavId;
   text: string;
   color?: string;
   className?: string;
   spanClass?: string;
-  activeNav?: string;
-  handleNav: (setActiveNav: string) => void;
+  activeNav?: NavId;
+  handleNav: (setActiveNav: NavId) => void;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -26,13 +28,22 @@ const IconButton: React.FC<IconButtonProps> = ({
   ...props
 }) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const isClient = typeof window !== "undefined";
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (activeNav === iconName && activeNav !== "" && ref.current) {
+      setWidth(ref.current.offsetWidth + 30);
+    } else {
+      setWidth(0);
+    }
+  }, [activeNav, iconName]);
+
   return (
     <button
       onClick={() => handleNav(iconName)}
       className={`
         flex m-1 p-2 items-center align-middle rounded-full text-white ${
-          activeNav === iconName
+          activeNav === iconName && activeNav !== ""
             ? "bg-appbar-blue"
             : color || "bg-appbar-secondary"
         } ${className}
@@ -42,13 +53,11 @@ const IconButton: React.FC<IconButtonProps> = ({
       {children}
       <div
         style={{
-          width:
-            isClient && activeNav == iconName
-              ? (ref.current?.offsetWidth || 0) + 30
-              : 0,
+          width,
           height: "30px",
+          transition: "width 0.3s ease-in-out",
         }}
-        className={`overflow-x-hidden transition-all duration-200 ease-linear bg-appbar-blue`}
+        className="overflow-x-hidden bg-appbar-blue"
       >
         <span ref={ref} className={`px-0.5 ${spanClass}`}>
           {text}
