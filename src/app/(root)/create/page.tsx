@@ -14,7 +14,7 @@ import { SelectItem } from "@radix-ui/react-select";
 import Datepicker from "@/components/datepicker";
 import { Button } from "@/components/ui/button";
 
-export const CATEGORIES = [
+const CATEGORIES = [
   { value: "travel", label: "Travel" },
   { value: "food", label: "Food" },
   { value: "house", label: "Housing" },

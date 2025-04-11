@@ -32,7 +32,7 @@ export default function Landing() {
     }
   };
   return (
-    <div className="flex min-h-screen flex-col bg-black font-poppins">
+    <div className="flex min-h-screen flex-col bg-black">
       <header className="sticky top-0 z-50 w-full border-b bg-black/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between mx-auto">
           <div className="flex items-center gap-2">
