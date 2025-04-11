@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import AppBar from "@/components/appbar";
-import Header from "@/components/header";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -11,8 +9,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Spendlux",
-  description: "Finance manager",
+  title: "Spendlux - Track smarter. Spend better.",
+  description:
+    "A sleek, cross-platform PWA for effortless personal finance tracking.",
 };
 
 export default function RootLayout({
@@ -22,15 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} bg-background text-white overflow-y-hidden`}>
-        <div className="md:hidden">
-          <Header />
-          <main>{children}</main>
-          <AppBar />
-        </div>
-        <div className="hidden md:block text-center">
-          Only Supported in mobile devices
-        </div>
+      <body className={`${poppins.className} bg-background text-white`}>
+        {children}
       </body>
     </html>
   );
