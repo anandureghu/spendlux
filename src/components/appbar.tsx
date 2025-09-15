@@ -7,19 +7,23 @@ import IconButton from "./IconButton";
 import { usePathname } from "next/navigation";
 import { linkItems } from "@/constants/navLinks";
 
-type NavId = "home" | "create" | "analytics" | "list";
+type NavId = "home" | "create" | "analytics" | "transactions" | "";
 
 export default function AppBar() {
-  const [activeNav, setActiveNav] = useState<NavId>("home");
   const pathName = usePathname();
+  const [activeNav, setActiveNav] = useState<NavId>("");
 
   useEffect(() => {
-    const currentItem = linkItems.find((item) => item.href === pathName);
-    if (currentItem) setActiveNav(currentItem.id as NavId);
+    if (pathName === "/profile") {
+      setActiveNav("");
+    } else {
+      const currentItem = linkItems.find((item) => item.href === pathName);
+      if (currentItem) setActiveNav(currentItem.id as NavId);
+    }
   }, [pathName]);
 
   return (
-    <nav 
+    <nav
       className="fixed bottom-2 bg-appbar-primary inset-x-0 flex flex-row rounded-full justify-self-center p-2"
       role="navigation"
       aria-label="Main navigation"
@@ -46,6 +50,7 @@ export default function AppBar() {
               height={25}
               className="p-1"
               priority={activeNav === item.id}
+              loading={activeNav === item.id ? "eager" : "lazy"}
             />
           </IconButton>
         </Link>

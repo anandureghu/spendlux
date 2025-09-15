@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import "./globals.css";
 import { Poppins } from "next/font/google";
-import AppBar from "@/components/appbar";
-import Header from "@/components/header";
+import "./globals.css";
+import { metadata } from "./metadata";
+import AuthListener from "@/components/authListener";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -10,24 +10,19 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-export const metadata: Metadata = {
-  title: "Spendlux",
-  description: "Finance manager",
-};
+export { metadata };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} bg-background text-white overflow-y-hidden`}>
-        <div className="md:hidden">
-          <Header />
-          <main>{children}</main>
-          <AppBar />
-        </div>
+      <body className={`${poppins.variable} bg-background text-white`}>
+        <Toaster position="bottom-center" />
+        <AuthListener /> {/* Read auth changes*/}
+        <div className="md:hidden">{children}</div>
         <div className="hidden md:block text-center">
           Only Supported in mobile devices
         </div>
